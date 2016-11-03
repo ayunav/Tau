@@ -1,6 +1,7 @@
 //
 //  AppDelegate.swift
 //  Tau
+//  'Tau' is for word 'weather' in Samoan language.
 //
 //  Created by Ayuna NYC on 11/3/16.
 //  Copyright © 2016 Ayuna NYC. All rights reserved.
