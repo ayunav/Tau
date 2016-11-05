@@ -45,13 +45,6 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
         cityTextField.enablesReturnKeyAutomatically = true
         
         getCityWeatherButton.enabled = false
-        
-        //weather.getWeatherByCity("newyork")
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Button events
@@ -76,7 +69,7 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
         dispatch_async(dispatch_get_main_queue()) {
             self.cityLabel.text = weather.city
             self.weatherLabel.text = weather.weatherDescription
-            self.temperatureLabel.text = "\(Int(round(weather.tempCelsius)))°"
+            self.temperatureLabel.text = "\(Int(round(weather.tempCelsius)))°C"
             self.cloudCoverLabel.text = "\(weather.cloudCover)%"
             self.windLabel.text = "\(weather.windSpeed) m/s"
             
@@ -95,6 +88,7 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
         // This method is called asynchronously, which means it won't execute in the main queue.
         // ALl UI code needs to execute in the main queue, which is why we're wrapping the call
         // to showSimpleAlert(title:message:) in a dispatch_async() call.
+        
         dispatch_async(dispatch_get_main_queue()) {
             self.showSimpleAlert("Can't get the weather", message: "The weather service is not responding.")
         }
@@ -107,6 +101,7 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     // Enable the "Get weather for the city" button
     // if the city text field contains any text,
     // disable it otherwise.
+   
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
         let prospectiveText = (currentText as NSString).stringByReplacingCharactersInRange(range, withString: string)
@@ -117,6 +112,7 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
  
     // Pressing the clear button on the text field (the x-in-a-circle button
     // on the right side of the field)
+    
     func textFieldShouldClear(textField: UITextField) -> Bool {
         // Even though pressing the clear button clears the text field,
         // this line is necessary.
@@ -127,6 +123,7 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     
     // Pressing the return button on the keyboard should be like
     // pressing the "Get weather for the city above" button.
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         getWeatherForCityButtonTapped(getCityWeatherButton)
@@ -134,6 +131,7 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     }
     
     // Tapping on the view should dismiss the keyboard.
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
     }
@@ -161,5 +159,3 @@ extension String {
     }
     
 }
-
-

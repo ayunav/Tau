@@ -35,14 +35,11 @@ class WeatherGetter {
         self.delegate = delegate
     }
     
-//    func getWeatherByCity(city: String) {
-//        let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)")!
-//        getWeather(weatherRequestURL)
-//    }
-    
-    func getWeather(weatherRequestURL: NSURL) {
+    func getWeather(city: String) {
         
         let session = NSURLSession.sharedSession()
+        
+        let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)")!
         
         let dataTask = session.dataTaskWithURL(weatherRequestURL) {
             (data: NSData?, response: NSURLResponse?, error: NSError?) in
@@ -63,31 +60,7 @@ class WeatherGetter {
                     // Now that we have the Weather struct, let's notify the view controller,
                     // which will use it to display the weather to the user.
                     self.delegate.didGetWeather(weather)
-//                    
-//                    print("Date and time: \(weather["dt"]!)")
-//                    print("City: \(weather["name"]!)")
-//                    
-//                    print("Longitude: \(weather["coord"]!["lon"]!!)")
-//                    print("Latitude: \(weather["coord"]!["lat"]!!)")
-//                    
-//                    print("Weather ID: \(weather["weather"]![0]!["id"]!!)")
-//                    print("Weather main: \(weather["weather"]![0]!["main"]!!)")
-//                    print("Weather description: \(weather["weather"]![0]!["description"]!!)")
-//                    print("Weather icon ID: \(weather["weather"]![0]!["icon"]!!)")
-//                    
-//                    print("Temperature: \(weather["main"]!["temp"]!!)")
-//                    print("Humidity: \(weather["main"]!["humidity"]!!)")
-//                    print("Pressure: \(weather["main"]!["pressure"]!!)")
-//                    
-//                    print("Cloud cover: \(weather["clouds"]!["all"]!!)")
-//                    
-//                    print("Wind direction: \(weather["wind"]!["deg"]!!) degrees")
-//                    print("Wind speed: \(weather["wind"]!["speed"]!!)")
-//                    
-//                    print("Country: \(weather["sys"]!["country"]!!)")
-//                    print("Sunrise: \(weather["sys"]!["sunrise"]!!)")
-//                    print("Sunset: \(weather["sys"]!["sunset"]!!)")
-                }
+             }
                 catch let jsonError as NSError {
                     // An error occurred while trying to convert the data into a Swift dictionary.
                     self.delegate.didNotGetWeather(jsonError)
