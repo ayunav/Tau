@@ -25,13 +25,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ws5-JJ-1Jt">
-                                <rect key="frame" x="20" y="169" width="561" height="21"/>
+                                <rect key="frame" x="20" y="169" width="561.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jUh-Qz-iEn">
-                                <rect key="frame" x="147.5" y="81" width="307" height="30"/>
+                                <rect key="frame" x="147" y="81" width="307" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="307" id="yHu-OZ-BQu"/>
                                 </constraints>
@@ -46,40 +46,40 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weather" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="725-as-2DO">
-                                <rect key="frame" x="20" y="198" width="561" height="21"/>
+                                <rect key="frame" x="20" y="198" width="561.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20s-8Z-kpg">
-                                <rect key="frame" x="20" y="227" width="280.5" height="353"/>
+                                <rect key="frame" x="20" y="227" width="281" height="153"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temperature" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jW-KW-FxR">
-                                        <rect key="frame" x="8" y="8" width="263.5" height="21"/>
+                                        <rect key="frame" x="8" y="8" width="264" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cloud cover" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C7N-pu-iy8">
-                                        <rect key="frame" x="8" y="37" width="263.5" height="21"/>
+                                        <rect key="frame" x="8" y="37" width="264" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wind" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYy-iJ-L8x">
-                                        <rect key="frame" x="8" y="66" width="263.5" height="21"/>
+                                        <rect key="frame" x="8" y="66" width="264" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rain in last 3h" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ib4-Si-9eu">
-                                        <rect key="frame" x="8" y="95" width="263.5" height="21"/>
+                                        <rect key="frame" x="8" y="95" width="264" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Humidity" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WiH-LD-bOA">
-                                        <rect key="frame" x="8" y="124" width="263.5" height="21"/>
+                                        <rect key="frame" x="8" y="124" width="264" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -96,6 +96,7 @@
                                     <constraint firstItem="Ib4-Si-9eu" firstAttribute="top" secondItem="tYy-iJ-L8x" secondAttribute="bottom" constant="8" symbolic="YES" id="S0h-qH-vzF"/>
                                     <constraint firstItem="C7N-pu-iy8" firstAttribute="leading" secondItem="tYy-iJ-L8x" secondAttribute="leading" id="TAw-gZ-nzs"/>
                                     <constraint firstItem="2jW-KW-FxR" firstAttribute="centerX" secondItem="20s-8Z-kpg" secondAttribute="centerX" id="VhV-Z3-FaZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="WiH-LD-bOA" secondAttribute="bottom" constant="8" id="aGh-0z-6qm"/>
                                     <constraint firstItem="2jW-KW-FxR" firstAttribute="leading" secondItem="C7N-pu-iy8" secondAttribute="leading" id="bwI-HW-UwM"/>
                                     <constraint firstItem="WiH-LD-bOA" firstAttribute="top" secondItem="Ib4-Si-9eu" secondAttribute="bottom" constant="8" symbolic="YES" id="ha6-4L-KUC"/>
                                     <constraint firstItem="2jW-KW-FxR" firstAttribute="trailing" secondItem="C7N-pu-iy8" secondAttribute="trailing" id="jUm-PF-W1y"/>
@@ -103,8 +104,15 @@
                                     <constraint firstItem="tYy-iJ-L8x" firstAttribute="top" secondItem="C7N-pu-iy8" secondAttribute="bottom" constant="8" symbolic="YES" id="vKa-Fe-GKj"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7j-k4-1vf">
+                                <rect key="frame" x="174" y="388" width="253" height="30"/>
+                                <state key="normal" title="Get weather for your current location"/>
+                                <connections>
+                                    <action selector="getWeatherForLocationButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Oe8-Wa-LZI"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KO3-y5-lv7">
-                                <rect key="frame" x="300.5" y="227" width="280.5" height="353"/>
+                                <rect key="frame" x="300.5" y="227" width="280.5" height="153"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fB-ra-a0d">
                                         <rect key="frame" x="8" y="8" width="264.5" height="21"/>
@@ -152,6 +160,7 @@
                                     <constraint firstItem="zRe-PN-v9B" firstAttribute="leading" secondItem="KO3-y5-lv7" secondAttribute="leading" constant="8" id="JC6-Hx-YLB"/>
                                     <constraint firstItem="zRe-PN-v9B" firstAttribute="leading" secondItem="ROo-P8-qgy" secondAttribute="leading" id="Ka5-WL-DmD"/>
                                     <constraint firstItem="i0x-Bm-zzM" firstAttribute="trailing" secondItem="zRe-PN-v9B" secondAttribute="trailing" id="LFS-Mf-vMy"/>
+                                    <constraint firstAttribute="bottom" secondItem="cCL-gw-gai" secondAttribute="bottom" constant="8" id="Nip-8I-DUi"/>
                                     <constraint firstItem="cCL-gw-gai" firstAttribute="top" secondItem="ROo-P8-qgy" secondAttribute="bottom" constant="8" id="U3u-YN-JGd"/>
                                     <constraint firstItem="i0x-Bm-zzM" firstAttribute="leading" secondItem="zRe-PN-v9B" secondAttribute="leading" id="VSJ-Sf-4cC"/>
                                     <constraint firstAttribute="trailing" secondItem="0fB-ra-a0d" secondAttribute="trailing" constant="8" id="YQu-LT-b00"/>
@@ -184,7 +193,9 @@
                             <constraint firstItem="20s-8Z-kpg" firstAttribute="width" secondItem="KO3-y5-lv7" secondAttribute="width" id="8uA-tK-ik6"/>
                             <constraint firstItem="ZO9-2V-cto" firstAttribute="top" secondItem="jUh-Qz-iEn" secondAttribute="bottom" constant="8" id="9do-Sq-xcX"/>
                             <constraint firstItem="20s-8Z-kpg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Cys-Vj-09m"/>
+                            <constraint firstItem="C7j-k4-1vf" firstAttribute="top" secondItem="20s-8Z-kpg" secondAttribute="bottom" constant="8" id="EAc-31-X2d"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="20s-8Z-kpg" secondAttribute="bottom" constant="20" id="HJJ-Xu-srQ"/>
+                            <constraint firstItem="C7j-k4-1vf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ris-Xz-mPF"/>
                             <constraint firstItem="ws5-JJ-1Jt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="VW9-mm-mcC"/>
                             <constraint firstItem="KO3-y5-lv7" firstAttribute="top" secondItem="725-as-2DO" secondAttribute="bottom" constant="8" id="Z5S-qc-Nme"/>
                             <constraint firstItem="725-as-2DO" firstAttribute="top" secondItem="ws5-JJ-1Jt" secondAttribute="bottom" constant="8" id="Zmx-vb-3YC"/>
@@ -202,12 +213,19 @@
                             <constraint firstItem="KO3-y5-lv7" firstAttribute="leading" secondItem="20s-8Z-kpg" secondAttribute="trailing" id="re7-MO-XXQ"/>
                             <constraint firstItem="HW1-mM-cOf" firstAttribute="leading" secondItem="20s-8Z-kpg" secondAttribute="leading" id="wBb-a9-vcJ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="HJJ-Xu-srQ"/>
+                                <exclude reference="iey-Zk-GX9"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="cityLabel" destination="ws5-JJ-1Jt" id="1tC-lt-YIk"/>
                         <outlet property="cityTextField" destination="jUh-Qz-iEn" id="cNd-As-qmf"/>
                         <outlet property="cloudCoverLabel" destination="i0x-Bm-zzM" id="Ngy-IP-Lsy"/>
                         <outlet property="getCityWeatherButton" destination="ZO9-2V-cto" id="rrw-31-9Jo"/>
+                        <outlet property="getLocationWeatherButton" destination="C7j-k4-1vf" id="f14-ig-iy4"/>
                         <outlet property="humidityLabel" destination="cCL-gw-gai" id="C3v-o6-cgW"/>
                         <outlet property="rainLabel" destination="ROo-P8-qgy" id="OoN-3k-MzI"/>
                         <outlet property="temperatureLabel" destination="0fB-ra-a0d" id="hLb-NA-Yhg"/>

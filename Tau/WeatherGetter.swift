@@ -35,11 +35,20 @@ class WeatherGetter {
         self.delegate = delegate
     }
     
-    func getWeather(city: String) {
+    func getWeatherByCity(city: String) {
+        let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)")!
+        getWeather(weatherRequestURL)
+    }
+    
+    func getWeatherByCoordinates(latitude latitude: Double, longitude: Double) {
+        let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&lat=\(latitude)&lon=\(longitude)")!
+        getWeather(weatherRequestURL)
+    }
+    
+    private func getWeather(weatherRequestURL: NSURL) {
         
         let session = NSURLSession.sharedSession()
-        
-        let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)")!
+        session.configuration.timeoutIntervalForRequest = 3
         
         let dataTask = session.dataTaskWithURL(weatherRequestURL) {
             (data: NSData?, response: NSURLResponse?, error: NSError?) in

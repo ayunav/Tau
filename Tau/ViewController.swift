@@ -6,9 +6,12 @@
 //  Copyright © 2016 Ayuna NYC. All rights reserved.
 //
 
-import UIKit
+// Tutorial: http://www.globalnerdy.com/2016/05/16/how-to-build-an-ios-weather-app-in-swift-part-5-putting-it-all-together/
 
-class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelegate {
+import UIKit
+import CoreLocation
+
+class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
@@ -19,8 +22,10 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var getCityWeatherButton: UIButton!
+    @IBOutlet weak var getLocationWeatherButton: UIButton!
     
     var weather: WeatherGetter!
+    let locationManager = CLLocationManager()
     
     // MARK: -
 
@@ -50,13 +55,22 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     // MARK: - Button events
     // ---------------------
 
+    @IBAction func getWeatherForLocationButtonTapped(sender: UIButton) {
+        setWeatherButtonStates(false)
+        getLocation()
+    }
+    
     @IBAction func getWeatherForCityButtonTapped(sender: UIButton) {
-        guard let text = cityTextField.text where !text.isEmpty else {
+        guard let text = cityTextField.text where !text.trimmed.isEmpty else {
             return
         }
-        weather.getWeather(cityTextField.text!.urlEncoded)
+        weather.getWeatherByCity(cityTextField.text!.urlEncoded)
     }
  
+    func setWeatherButtonStates(state: Bool) {
+        getLocationWeatherButton.enabled = state
+        getCityWeatherButton.enabled = state
+    }
     // MARK: -
     
     // MARK: WeatherGetterDelegate methods
@@ -81,6 +95,8 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
             }
             
             self.humidityLabel.text = "\(weather.humidity)%"
+            self.getLocationWeatherButton.enabled = true
+            self.getCityWeatherButton.enabled = self.cityTextField.text?.characters.count > 0
         }
     }
     
@@ -91,8 +107,81 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
         
         dispatch_async(dispatch_get_main_queue()) {
             self.showSimpleAlert("Can't get the weather", message: "The weather service is not responding.")
+            self.getLocationWeatherButton.enabled = true
+            self.getCityWeatherButton.enabled = self.cityTextField.text?.characters.count > 0
         }
         print("didNotGetWeather error: \(error)")
+    }
+    
+    
+    // MARK: - CLLocationManagerDelegate and related methods
+    
+    func getLocation() {
+        guard CLLocationManager.locationServicesEnabled() else {
+            showSimpleAlert(
+                "Please turn on location services",
+                message: "This app needs location services in order to report the weather " +
+                    "for your current location.\n" +
+                "Go to Settings → Privacy → Location Services and turn location services on."
+            )
+            getLocationWeatherButton.enabled = true
+            return
+        }
+        
+        let authStatus = CLLocationManager.authorizationStatus()
+        guard authStatus == .AuthorizedWhenInUse else {
+            switch authStatus {
+            case .Denied, .Restricted:
+                let alert = UIAlertController(
+                    title: "Location services for this app are disabled",
+                    message: "In order to get your current location, please open Settings for this app, choose \"Location\"  and set \"Allow location access\" to \"While Using the App\".",
+                    preferredStyle: .Alert
+                )
+                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+                let openSettingsAction = UIAlertAction(title: "Open Settings", style: .Default) {
+                    action in
+                    if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.sharedApplication().openURL(url)
+                    }
+                }
+                alert.addAction(cancelAction)
+                alert.addAction(openSettingsAction)
+                presentViewController(alert, animated: true, completion: nil)
+                getLocationWeatherButton.enabled = true
+                return
+                
+            case .NotDetermined:
+                locationManager.requestWhenInUseAuthorization()
+                
+            default:
+                // The default case is the remaining authorization status, .AuthorizedAlways.
+                // There’s no way to get to this point. This case is included only because the switch statement requires that all cases to be covered.
+                print("Oops! Shouldn't have come this far.")
+            }
+            
+            return
+        }
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        locationManager.requestLocation()
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let newLocation = locations.last!
+        weather.getWeatherByCoordinates(latitude: newLocation.coordinate.latitude,
+                                        longitude: newLocation.coordinate.longitude)
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        // This method is called asynchronously, which means it won't execute in the main queue.
+        // All UI code needs to execute in the main queue, which is why we're wrapping the call
+        // to showSimpleAlert(title:message:) in a dispatch_async() call.
+        dispatch_async(dispatch_get_main_queue()) {
+            self.showSimpleAlert("Can't determine your location",
+                                 message: "The GPS and other location services aren't responding.")
+        }
+        print("locationManager didFailWithError: \(error)")
     }
     
     // MARK: - UITextFieldDelegate and related methods
@@ -158,4 +247,7 @@ extension String {
         return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLUserAllowedCharacterSet())!
     }
     
+    var trimmed: String {
+        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+    }
 }
