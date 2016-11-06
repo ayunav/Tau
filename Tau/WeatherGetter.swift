@@ -36,7 +36,11 @@ class WeatherGetter {
     }
     
     func getWeatherByCity(city: String) {
-        let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)")!
+        guard let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)") else {
+            let error = NSError(domain: "WeatherFetchingURLCreation", code: 0, userInfo: nil)
+            self.delegate.didNotGetWeather(error)
+            return
+        }
         getWeather(weatherRequestURL)
     }
     
