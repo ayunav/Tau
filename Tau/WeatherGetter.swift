@@ -20,23 +20,27 @@ import Foundation
 // - The received weather data could not be converted from JSON into a dictionary.
 
 protocol WeatherGetterDelegate {
-    func didGetWeather(weather: Weather)
-    func didNotGetWeather(error: NSError)
+    func didGetWeather(_ weather: Weather)
+    func didNotGetWeather(_ error: NSError)
 }
 
 class WeatherGetter {
     
-    private let openWeatherMapBaseURL = "http://api.openweathermap.org/data/2.5/weather"
-    private let openWeatherMapAPIKey = "082f85a53bf94ae987b3e5e281a71e51"
+    fileprivate let openWeatherMapBaseURL = "http://api.openweathermap.org/data/2.5/weather"
+    fileprivate let openWeatherMapAPIKey = "082f85a53bf94ae987b3e5e281a71e51"
     
-    private var delegate: WeatherGetterDelegate
+    fileprivate var delegate: WeatherGetterDelegate
     
-    init(delegate: WeatherGetterDelegate) {
+    
+    init(delegate: WeatherGetterDelegate)
+    {
         self.delegate = delegate
     }
     
-    func getWeatherByCity(city: String) {
-        guard let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)") else {
+    
+    func getWeatherByCity(_ city: String)
+    {
+        guard let weatherRequestURL = URL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&q=\(city)") else {
             let error = NSError(domain: "WeatherFetchingURLCreation", code: 0, userInfo: nil)
             self.delegate.didNotGetWeather(error)
             return
@@ -44,18 +48,20 @@ class WeatherGetter {
         getWeather(weatherRequestURL)
     }
     
-    func getWeatherByCoordinates(latitude latitude: Double, longitude: Double) {
-        let weatherRequestURL = NSURL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&lat=\(latitude)&lon=\(longitude)")!
+    
+    func getWeatherByCoordinates(latitude: Double, longitude: Double)
+    {
+        let weatherRequestURL = URL(string: "\(openWeatherMapBaseURL)?APPID=\(openWeatherMapAPIKey)&lat=\(latitude)&lon=\(longitude)")!
         getWeather(weatherRequestURL)
     }
     
-    private func getWeather(weatherRequestURL: NSURL) {
-        
-        let session = NSURLSession.sharedSession()
+    
+    fileprivate func getWeather(_ weatherRequestURL: URL)
+    {
+        let session = URLSession.shared
         session.configuration.timeoutIntervalForRequest = 3
         
-        let dataTask = session.dataTaskWithURL(weatherRequestURL) {
-            (data: NSData?, response: NSURLResponse?, error: NSError?) in
+        let dataTask = session.dataTask(with: weatherRequestURL, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) in
            
             if let networkError = error {
                 self.delegate.didNotGetWeather(networkError)
@@ -63,7 +69,7 @@ class WeatherGetter {
             else {
                 do {
                     // Try to convert that data into a Swift dictionary
-                    let weatherData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! [String: AnyObject]
+                    let weatherData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: AnyObject]
                     
                     // If we made it to this point, we've successfully converted the
                     // JSON-formatted weather data into a Swift dictionary.
@@ -79,8 +85,7 @@ class WeatherGetter {
                     self.delegate.didNotGetWeather(jsonError)
                 }
             }
-            
-        }
+        } as! (Data?, URLResponse?, Error?) -> Void)
         
         dataTask.resume()
     }

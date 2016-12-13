@@ -10,7 +10,7 @@ import Foundation
 
 struct Weather {
     
-    let dateAndTime: NSDate
+    let dateAndTime: Date
     
     let city: String
     let country: String
@@ -26,7 +26,7 @@ struct Weather {
     // which is why we provide celsius and fahrenheit
     // computed properties.
 
-    private let temp: Double
+    fileprivate let temp: Double
     
     var tempCelsius: Double {
         get {
@@ -51,11 +51,11 @@ struct Weather {
     let windDirection: Double?
     let rainfallInLast3Hours: Double?
     
-    let sunrise: NSDate
-    let sunset: NSDate
+    let sunrise: Date
+    let sunset: Date
   
     init(weatherData: [String : AnyObject]) {
-        dateAndTime = NSDate(timeIntervalSince1970: weatherData["dt"] as! NSTimeInterval)
+        dateAndTime = Date(timeIntervalSince1970: weatherData["dt"] as! TimeInterval)
         city = weatherData["name"] as! String
         
         let coordDict = weatherData["coord"] as! [String: AnyObject]
@@ -89,7 +89,7 @@ struct Weather {
         
         let sysDict = weatherData["sys"] as! [String: AnyObject]
         country = sysDict["country"] as! String
-        sunrise = NSDate(timeIntervalSince1970: sysDict["sunrise"] as! NSTimeInterval)
-        sunset = NSDate(timeIntervalSince1970:sysDict["sunset"] as! NSTimeInterval)
+        sunrise = Date(timeIntervalSince1970: sysDict["sunrise"] as! TimeInterval)
+        sunset = Date(timeIntervalSince1970:sysDict["sunset"] as! TimeInterval)
     }
 }

@@ -10,6 +10,30 @@
 
 import UIKit
 import CoreLocation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelegate, CLLocationManagerDelegate {
     
@@ -49,38 +73,38 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
         cityTextField.delegate = self
         cityTextField.enablesReturnKeyAutomatically = true
         
-        getCityWeatherButton.enabled = false
+        getCityWeatherButton.isEnabled = false
     }
 
     // MARK: - Button events
     // ---------------------
 
-    @IBAction func getWeatherForLocationButtonTapped(sender: UIButton) {
+    @IBAction func getWeatherForLocationButtonTapped(_ sender: UIButton) {
         setWeatherButtonStates(false)
         getLocation()
     }
     
-    @IBAction func getWeatherForCityButtonTapped(sender: UIButton) {
-        guard let text = cityTextField.text where !text.trimmed.isEmpty else {
+    @IBAction func getWeatherForCityButtonTapped(_ sender: UIButton) {
+        guard let text = cityTextField.text, !text.trimmed.isEmpty else {
             return
         }
         weather.getWeatherByCity(cityTextField.text!.urlEncoded)
     }
  
-    func setWeatherButtonStates(state: Bool) {
-        getLocationWeatherButton.enabled = state
-        getCityWeatherButton.enabled = state
+    func setWeatherButtonStates(_ state: Bool) {
+        getLocationWeatherButton.isEnabled = state
+        getCityWeatherButton.isEnabled = state
     }
     // MARK: -
     
     // MARK: WeatherGetterDelegate methods
     // -----------------------------------
     
-    func didGetWeather(weather: Weather) {
+    func didGetWeather(_ weather: Weather) {
         // This method is called asynchronously, which means it won't execute in the main queue.
         // ALl UI code needs to execute in the main queue, which is why we're wrapping the code
         // that updates all the labels in a dispatch_async() call.
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.cityLabel.text = weather.city
             self.weatherLabel.text = weather.weatherDescription
             self.temperatureLabel.text = "\(Int(round(weather.tempCelsius)))°C"
@@ -95,20 +119,20 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
             }
             
             self.humidityLabel.text = "\(weather.humidity)%"
-            self.getLocationWeatherButton.enabled = true
-            self.getCityWeatherButton.enabled = self.cityTextField.text?.characters.count > 0
+            self.getLocationWeatherButton.isEnabled = true
+            self.getCityWeatherButton.isEnabled = self.cityTextField.text?.characters.count > 0
         }
     }
     
-    func didNotGetWeather(error: NSError) {
+    func didNotGetWeather(_ error: NSError) {
         // This method is called asynchronously, which means it won't execute in the main queue.
         // ALl UI code needs to execute in the main queue, which is why we're wrapping the call
         // to showSimpleAlert(title:message:) in a dispatch_async() call.
         
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.showSimpleAlert("Can't get the weather", message: "The weather service is not responding.")
-            self.getLocationWeatherButton.enabled = true
-            self.getCityWeatherButton.enabled = self.cityTextField.text?.characters.count > 0
+            self.getLocationWeatherButton.isEnabled = true
+            self.getCityWeatherButton.isEnabled = self.cityTextField.text?.characters.count > 0
         }
         print("didNotGetWeather error: \(error)")
     }
@@ -124,33 +148,33 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
                     "for your current location.\n" +
                 "Go to Settings → Privacy → Location Services and turn location services on."
             )
-            getLocationWeatherButton.enabled = true
+            getLocationWeatherButton.isEnabled = true
             return
         }
         
         let authStatus = CLLocationManager.authorizationStatus()
-        guard authStatus == .AuthorizedWhenInUse else {
+        guard authStatus == .authorizedWhenInUse else {
             switch authStatus {
-            case .Denied, .Restricted:
+            case .denied, .restricted:
                 let alert = UIAlertController(
                     title: "Location services for this app are disabled",
                     message: "In order to get your current location, please open Settings for this app, choose \"Location\"  and set \"Allow location access\" to \"While Using the App\".",
-                    preferredStyle: .Alert
+                    preferredStyle: .alert
                 )
-                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-                let openSettingsAction = UIAlertAction(title: "Open Settings", style: .Default) {
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                let openSettingsAction = UIAlertAction(title: "Open Settings", style: .default) {
                     action in
-                    if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.sharedApplication().openURL(url)
+                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(url)
                     }
                 }
                 alert.addAction(cancelAction)
                 alert.addAction(openSettingsAction)
-                presentViewController(alert, animated: true, completion: nil)
-                getLocationWeatherButton.enabled = true
+                present(alert, animated: true, completion: nil)
+                getLocationWeatherButton.isEnabled = true
                 return
                 
-            case .NotDetermined:
+            case .notDetermined:
                 locationManager.requestWhenInUseAuthorization()
                 
             default:
@@ -167,17 +191,17 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
         locationManager.requestLocation()
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         weather.getWeatherByCoordinates(latitude: newLocation.coordinate.latitude,
                                         longitude: newLocation.coordinate.longitude)
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         // This method is called asynchronously, which means it won't execute in the main queue.
         // All UI code needs to execute in the main queue, which is why we're wrapping the call
         // to showSimpleAlert(title:message:) in a dispatch_async() call.
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.showSimpleAlert("Can't determine your location",
                                  message: "The GPS and other location services aren't responding.")
         }
@@ -191,10 +215,10 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     // if the city text field contains any text,
     // disable it otherwise.
    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
-        let prospectiveText = (currentText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        getCityWeatherButton.enabled = prospectiveText.characters.count > 0
+        let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        getCityWeatherButton.isEnabled = prospectiveText.characters.count > 0
         print("Count: \(prospectiveText.characters.count)")
         return true
     }
@@ -202,18 +226,18 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     // Pressing the clear button on the text field (the x-in-a-circle button
     // on the right side of the field)
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         // Even though pressing the clear button clears the text field,
         // this line is necessary.
         textField.text = ""
-        getCityWeatherButton.enabled = false
+        getCityWeatherButton.isEnabled = false
         return true
     }
     
     // Pressing the return button on the keyboard should be like
     // pressing the "Get weather for the city above" button.
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         getWeatherForCityButtonTapped(getCityWeatherButton)
         return true
@@ -221,18 +245,18 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
     
     // Tapping on the view should dismiss the keyboard.
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
     // MARK: - Utility methods
     // -----------------------
     
-    func showSimpleAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+    func showSimpleAlert(_ title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     
@@ -244,10 +268,10 @@ extension String {
     // characters that need to be converted for use in URLs.
     
     var urlEncoded: String {
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLUserAllowedCharacterSet())!
+        return self.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlUserAllowed)!
     }
     
     var trimmed: String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return self.trimmingCharacters(in: CharacterSet.whitespaces)
     }
 }
