@@ -110,6 +110,7 @@
 				TargetAttributes = {
 					D9A204C41DCBBE5600D42DDD = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = N48NM3R37Q;
 						LastSwiftMigration = 0820;
 					};
 				};
@@ -271,7 +272,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N48NM3R37Q;
 				INFOPLIST_FILE = Tau/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ayunavogel.Tau;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -283,7 +286,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N48NM3R37Q;
 				INFOPLIST_FILE = Tau/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ayunavogel.Tau;
 				PRODUCT_NAME = "$(TARGET_NAME)";

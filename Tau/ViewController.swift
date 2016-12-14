@@ -124,7 +124,7 @@ class ViewController: UIViewController, WeatherGetterDelegate, UITextFieldDelega
         }
     }
     
-    func didNotGetWeather(_ error: NSError) {
+    func didNotGetWeather(_ error: Error) {
         // This method is called asynchronously, which means it won't execute in the main queue.
         // ALl UI code needs to execute in the main queue, which is why we're wrapping the call
         // to showSimpleAlert(title:message:) in a dispatch_async() call.

@@ -21,8 +21,9 @@ import Foundation
 
 protocol WeatherGetterDelegate {
     func didGetWeather(_ weather: Weather)
-    func didNotGetWeather(_ error: NSError)
+    func didNotGetWeather(_ error: Error)
 }
+
 
 class WeatherGetter {
     
@@ -61,32 +62,30 @@ class WeatherGetter {
         let session = URLSession.shared
         session.configuration.timeoutIntervalForRequest = 3
         
-        let dataTask = session.dataTask(with: weatherRequestURL, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) in
-           
-            if let networkError = error {
-                self.delegate.didNotGetWeather(networkError)
+        let task = session.dataTask(with: weatherRequestURL, completionHandler: { (data, response, error) -> Void in
+            guard let _data = data else {
+                self.delegate.didNotGetWeather(error!)
+                return
             }
-            else {
-                do {
-                    // Try to convert that data into a Swift dictionary
-                    let weatherData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: AnyObject]
-                    
-                    // If we made it to this point, we've successfully converted the
-                    // JSON-formatted weather data into a Swift dictionary.
-                    // Let's now use that dictionary to initialize a Weather struct.
-                    let weather = Weather(weatherData: weatherData)
-                    
-                    // Now that we have the Weather struct, let's notify the view controller,
-                    // which will use it to display the weather to the user.
-                    self.delegate.didGetWeather(weather)
-             }
-                catch let jsonError as NSError {
-                    // An error occurred while trying to convert the data into a Swift dictionary.
-                    self.delegate.didNotGetWeather(jsonError)
+            do {
+                // Try to convert that data into a Swift dictionary
+                guard let weatherData = try JSONSerialization.jsonObject(with: _data, options: .mutableContainers) as? [String: AnyObject] else {
+                    self.delegate.didNotGetWeather(error!)
+                    return
                 }
+                
+                // If we made it to this point, we've successfully converted the
+                // JSON-formatted weather data into a Swift dictionary.
+                // Let's now use that dictionary to initialize a Weather struct.
+                let weather = Weather(weatherData: weatherData)
+
+                // Now that we have the Weather struct, let's notify the view controller,
+                // which will use it to display the weather to the user.
+                self.delegate.didGetWeather(weather)
+            } catch let error {
+                print(error.localizedDescription)
             }
-        } as! (Data?, URLResponse?, Error?) -> Void)
-        
-        dataTask.resume()
+        })
+        task.resume()
     }
 }
